@@ -1,7 +1,7 @@
 import React from 'react';
-import { ShoppingBag, LogOut, Plus, User } from 'lucide-react';
+import { ShoppingBag, LogOut, Plus, User, ShoppingCart } from 'lucide-react';
 
-function Header({ user, onLogout, onLoginClick, onAddSweetClick, onOrdersClick }) {
+function Header({ user, cartCount, onLogout, onLoginClick, onAddSweetClick, onOrdersClick, onCartClick }) {
   return (
     <header className="backdrop-blur-md bg-white/30 shadow-lg sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -26,11 +26,27 @@ function Header({ user, onLogout, onLoginClick, onAddSweetClick, onOrdersClick }
                   )}
                 </div>
 
+                {/* Your Cart Button - Only for regular users */}
+                {user.role !== 'admin' && (
+                  <button
+                    onClick={onCartClick}
+                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full font-medium hover:shadow-lg transition-all flex items-center space-x-2 relative"
+                  >
+                    <ShoppingCart size={20} />
+                    <span>Your Cart</span>
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-sm">
+                        {cartCount}
+                      </span>
+                    )}
+                  </button>
+                )}
+
                 {/* Your Orders Button - Only for regular users */}
                 {user.role !== 'admin' && (
                   <button
                     onClick={onOrdersClick}
-                    className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-2 rounded-full font-medium hover:shadow-lg transition-all flex items-center space-x-2"
+                    className="bg-white border-2 border-purple-100 text-purple-600 px-4 py-2 rounded-full font-medium hover:bg-purple-50 transition-all flex items-center space-x-2"
                   >
                     <ShoppingBag size={20} />
                     <span>Your Orders</span>
